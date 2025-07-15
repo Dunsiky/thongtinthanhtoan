@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin tài khoản ngân hàng</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Premium Banking Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --tertiary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #232526 0%, #414345 100%);
+            --gold-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,70 +26,103 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>');
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
+            padding: 40px 0;
         }
 
         .header h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #3498db, #8e44ad);
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f6d365, #fda085);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
         }
 
         .header p {
-            color: #7f8c8d;
-            font-size: 1.1em;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.3em;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .banks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
         }
 
         .bank-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 25px 0;
-            color: white;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .bank-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
         }
 
         .bank-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold-gradient);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .bank-card::after {
             content: '';
             position: absolute;
             top: -50%;
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shimmer 3s infinite;
+            background: conic-gradient(transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 4s linear infinite;
         }
 
-        @keyframes shimmer {
+        @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
@@ -84,142 +130,254 @@
         .bank-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .bank-icon {
-            font-size: 2em;
-            margin-right: 15px;
-        }
-
-        .bank-name {
-            font-size: 1.4em;
-            font-weight: 600;
-        }
-
-        .account-info {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
+            margin-bottom: 30px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-weight: 500;
-            opacity: 0.9;
-        }
-
-        .info-value {
-            font-size: 1.1em;
-            font-weight: 600;
-            font-family: 'Courier New', monospace;
-        }
-
-        .copy-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-            margin-left: 15px;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.05);
-        }
-
-        .copy-btn:active {
-            transform: scale(0.98);
-        }
-
-        .qr-section {
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
-        }
-
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            border: 3px dashed #bdc3c7;
-            border-radius: 15px;
-            margin: 20px auto;
+        .bank-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: var(--gold-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #7f8c8d;
-            font-size: 1.1em;
-            background: white;
+            margin-right: 20px;
+            font-size: 1.5em;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .bank-info h3 {
+            color: white;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .bank-info p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1em;
+            font-weight: 300;
+        }
+
+        .account-details {
+            position: relative;
+            z-index: 2;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .detail-row:hover {
+            background: rgba(255,255,255,0.05);
+            margin: 0 -20px;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-info {
+            flex: 1;
+        }
+
+        .detail-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .copy-button {
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            color: white;
+            padding: 12px 24px;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .copy-button:hover {
+            background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(255,255,255,0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .copy-button:hover::before {
+            left: 100%;
+        }
+
+        .qr-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .qr-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--tertiary-gradient);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .qr-title {
+            color: white;
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .qr-container {
+            width: 280px;
+            height: 280px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: scan 2s infinite;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .qr-placeholder {
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+        }
+
+        .qr-placeholder i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
         }
 
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #27ae60;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #00c851 0%, #00a821 100%);
             color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             transform: translateX(400px);
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .notification.show {
             transform: translateX(0);
         }
 
+        .notification i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
         .footer {
             text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ecf0f1;
-            color: #7f8c8d;
+            margin-top: 60px;
+            padding: 30px 0;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1em;
+        }
+
+        .footer i {
+            margin-right: 10px;
+            color: var(--gold-gradient);
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
+            .banks-grid {
+                grid-template-columns: 1fr;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 2.5em;
             }
             
             .bank-card {
-                padding: 20px;
+                padding: 30px 20px;
             }
             
-            .info-row {
+            .detail-row {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 15px;
             }
             
-            .copy-btn {
+            .copy-button {
                 align-self: flex-end;
-                margin-left: 0;
             }
         }
     </style>
@@ -227,110 +385,123 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-university"></i> Thông tin tài khoản</h1>
-            <p>Sao chép thông tin chuyển khoản một cách nhanh chóng và chính xác</p>
+            <h1><i class="fas fa-gem"></i> Premium Banking Portal</h1>
+            <p>Luxury banking experience with premium security and elegance</p>
         </div>
 
-        <div class="bank-card">
-            <div class="bank-header">
-                <div class="bank-icon"><i class="fas fa-credit-card"></i></div>
-                <div class="bank-name">Ngân hàng Vietcombank</div>
+        <div class="banks-grid">
+            <div class="bank-card">
+                <div class="bank-header">
+                    <div class="bank-logo">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="bank-info">
+                        <h3>Vietcombank Premium</h3>
+                        <p>Ngân hàng TMCP Ngoại thương Việt Nam</p>
+                    </div>
+                </div>
+                <div class="account-details">
+                    <div class="detail-row">
+                        <div class="detail-info">
+                            <div class="detail-label">Account Number</div>
+                            <div class="detail-value">1234 5678 9012 3456</div>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('1234567890123456', 'Số tài khoản Vietcombank')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-info">
+                            <div class="detail-label">Account Holder</div>
+                            <div class="detail-value">NGUYEN VAN A</div>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('NGUYEN VAN A', 'Tên chủ tài khoản')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-info">
+                            <div class="detail-label">Branch</div>
+                            <div class="detail-value">Hanoi Central</div>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('Hanoi Central', 'Chi nhánh')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="account-info">
-                <div class="info-row">
-                    <div>
-                        <div class="info-label">Số tài khoản</div>
-                        <div class="info-value">1234 5678 9012 3456</div>
-                    </div>
-                    <button class="copy-btn" onclick="copyToClipboard('1234567890123456', 'Số tài khoản Vietcombank')">
-                        <i class="fas fa-copy"></i> Sao chép
-                    </button>
-                </div>
-                <div class="info-row">
-                    <div>
-                        <div class="info-label">Chủ tài khoản</div>
-                        <div class="info-value">NGUYEN VAN A</div>
-                    </div>
-                    <button class="copy-btn" onclick="copyToClipboard('NGUYEN VAN A', 'Tên chủ tài khoản')">
-                        <i class="fas fa-copy"></i> Sao chép
-                    </button>
-                </div>
-                <div class="info-row">
-                    <div>
-                        <div class="info-label">Chi nhánh</div>
-                        <div class="info-value">Hà Nội</div>
-                    </div>
-                    <button class="copy-btn" onclick="copyToClipboard('Hà Nội', 'Chi nhánh')">
-                        <i class="fas fa-copy"></i> Sao chép
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <div class="bank-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-            <div class="bank-header">
-                <div class="bank-icon"><i class="fas fa-mobile-alt"></i></div>
-                <div class="bank-name">Ngân hàng Techcombank</div>
-            </div>
-            <div class="account-info">
-                <div class="info-row">
-                    <div>
-                        <div class="info-label">Số tài khoản</div>
-                        <div class="info-value">0987 6543 2109 8765</div>
+            <div class="bank-card">
+                <div class="bank-header">
+                    <div class="bank-logo">
+                        <i class="fas fa-credit-card"></i>
                     </div>
-                    <button class="copy-btn" onclick="copyToClipboard('0987654321098765', 'Số tài khoản Techcombank')">
-                        <i class="fas fa-copy"></i> Sao chép
-                    </button>
+                    <div class="bank-info">
+                        <h3>Techcombank Elite</h3>
+                        <p>Ngân hàng TMCP Kỹ thương Việt Nam</p>
+                    </div>
                 </div>
-                <div class="info-row">
-                    <div>
-                        <div class="info-label">Chủ tài khoản</div>
-                        <div class="info-value">NGUYEN VAN A</div>
+                <div class="account-details">
+                    <div class="detail-row">
+                        <div class="detail-info">
+                            <div class="detail-label">Account Number</div>
+                            <div class="detail-value">0987 6543 2109 8765</div>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('0987654321098765', 'Số tài khoản Techcombank')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
                     </div>
-                    <button class="copy-btn" onclick="copyToClipboard('NGUYEN VAN A', 'Tên chủ tài khoản')">
-                        <i class="fas fa-copy"></i> Sao chép
-                    </button>
-                </div>
-                <div class="info-row">
-                    <div>
-                        <div class="info-label">Chi nhánh</div>
-                        <div class="info-value">TP. Hồ Chí Minh</div>
+                    <div class="detail-row">
+                        <div class="detail-info">
+                            <div class="detail-label">Account Holder</div>
+                            <div class="detail-value">NGUYEN VAN A</div>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('NGUYEN VAN A', 'Tên chủ tài khoản')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
                     </div>
-                    <button class="copy-btn" onclick="copyToClipboard('TP. Hồ Chí Minh', 'Chi nhánh')">
-                        <i class="fas fa-copy"></i> Sao chép
-                    </button>
+                    <div class="detail-row">
+                        <div class="detail-info">
+                            <div class="detail-label">Branch</div>
+                            <div class="detail-value">Ho Chi Minh City</div>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('Ho Chi Minh City', 'Chi nhánh')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="qr-section">
-            <h3><i class="fas fa-qrcode"></i> QR Code chuyển khoản</h3>
-            <div class="qr-placeholder">
-                <div>
-                    <i class="fas fa-qrcode" style="font-size: 3em; opacity: 0.3;"></i>
-                    <p style="margin-top: 10px; opacity: 0.6;">Thêm QR Code tại đây</p>
+            <h2 class="qr-title"><i class="fas fa-qrcode"></i> QR Payment Code</h2>
+            <div class="qr-container">
+                <div class="qr-placeholder">
+                    <i class="fas fa-qrcode"></i>
+                    <p>Scan to pay instantly</p>
                 </div>
             </div>
-            <p style="color: #7f8c8d; margin-top: 15px;">Quét mã QR để chuyển khoản nhanh chóng</p>
+            <p style="color: rgba(255,255,255,0.7); margin-top: 20px; font-size: 1.1em;">
+                Scan this QR code for instant payment processing
+            </p>
         </div>
 
         <div class="footer">
-            <p><i class="fas fa-shield-alt"></i> Thông tin được bảo mật và chỉ hiển thị dữ liệu công khai</p>
+            <p><i class="fas fa-shield-alt"></i> Premium security with enterprise-grade encryption</p>
         </div>
     </div>
 
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
-        <span id="notification-text">Đã sao chép thành công!</span>
+        <span id="notification-text">Successfully copied!</span>
     </div>
 
     <script>
         function copyToClipboard(text, type) {
             navigator.clipboard.writeText(text).then(function() {
-                showNotification(`Đã sao chép ${type}: ${text}`);
+                showNotification(`✨ Copied ${type}: ${text}`);
             }).catch(function(err) {
-                console.error('Không thể sao chép: ', err);
-                showNotification('Có lỗi xảy ra khi sao chép!');
+                showNotification('❌ Copy failed! Please try again.');
             });
         }
 
@@ -343,16 +514,40 @@
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 3500);
         }
 
-        // Thêm hiệu ứng cho các nút
-        document.querySelectorAll('.copy-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+        // Enhanced button interactions
+        document.querySelectorAll('.copy-button').forEach(button => {
+            button.addEventListener('click', function() {
                 this.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     this.style.transform = 'scale(1)';
-                }, 100);
+                }, 150);
+            });
+        });
+
+        // Parallax effect for background
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.bank-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+        });
+
+        document.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.bank-card').forEach(card => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
             });
         });
     </script>
