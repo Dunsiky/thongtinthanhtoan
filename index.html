@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin tài khoản ngân hàng</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+
+        .bank-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bank-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .bank-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bank-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .bank-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .bank-name {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .account-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .info-value {
+            font-size: 1.1em;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            margin-left: 15px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .qr-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            border: 3px dashed #bdc3c7;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 1.1em;
+            background: white;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .bank-card {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .copy-btn {
+                align-self: flex-end;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-university"></i> Thông tin tài khoản</h1>
+            <p>Sao chép thông tin chuyển khoản một cách nhanh chóng và chính xác</p>
+        </div>
+
+        <div class="bank-card">
+            <div class="bank-header">
+                <div class="bank-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="bank-name">Ngân hàng Vietcombank</div>
+            </div>
+            <div class="account-info">
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">Số tài khoản</div>
+                        <div class="info-value">1234 5678 9012 3456</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('1234567890123456', 'Số tài khoản Vietcombank')">
+                        <i class="fas fa-copy"></i> Sao chép
+                    </button>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">Chủ tài khoản</div>
+                        <div class="info-value">NGUYEN VAN A</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('NGUYEN VAN A', 'Tên chủ tài khoản')">
+                        <i class="fas fa-copy"></i> Sao chép
+                    </button>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">Chi nhánh</div>
+                        <div class="info-value">Hà Nội</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('Hà Nội', 'Chi nhánh')">
+                        <i class="fas fa-copy"></i> Sao chép
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bank-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+            <div class="bank-header">
+                <div class="bank-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="bank-name">Ngân hàng Techcombank</div>
+            </div>
+            <div class="account-info">
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">Số tài khoản</div>
+                        <div class="info-value">0987 6543 2109 8765</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('0987654321098765', 'Số tài khoản Techcombank')">
+                        <i class="fas fa-copy"></i> Sao chép
+                    </button>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">Chủ tài khoản</div>
+                        <div class="info-value">NGUYEN VAN A</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('NGUYEN VAN A', 'Tên chủ tài khoản')">
+                        <i class="fas fa-copy"></i> Sao chép
+                    </button>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">Chi nhánh</div>
+                        <div class="info-value">TP. Hồ Chí Minh</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('TP. Hồ Chí Minh', 'Chi nhánh')">
+                        <i class="fas fa-copy"></i> Sao chép
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h3><i class="fas fa-qrcode"></i> QR Code chuyển khoản</h3>
+            <div class="qr-placeholder">
+                <div>
+                    <i class="fas fa-qrcode" style="font-size: 3em; opacity: 0.3;"></i>
+                    <p style="margin-top: 10px; opacity: 0.6;">Thêm QR Code tại đây</p>
+                </div>
+            </div>
+            <p style="color: #7f8c8d; margin-top: 15px;">Quét mã QR để chuyển khoản nhanh chóng</p>
+        </div>
+
+        <div class="footer">
+            <p><i class="fas fa-shield-alt"></i> Thông tin được bảo mật và chỉ hiển thị dữ liệu công khai</p>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Đã sao chép thành công!</span>
+    </div>
+
+    <script>
+        function copyToClipboard(text, type) {
+            navigator.clipboard.writeText(text).then(function() {
+                showNotification(`Đã sao chép ${type}: ${text}`);
+            }).catch(function(err) {
+                console.error('Không thể sao chép: ', err);
+                showNotification('Có lỗi xảy ra khi sao chép!');
+            });
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Thêm hiệu ứng cho các nút
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
